@@ -1,0 +1,133 @@
+.nav-bg {
+  background-color: white;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1280px; /* max-w-screen-xl */
+  position: relative; /* Ensure this spans the entire width of the menu items */
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* space-x-3 */
+}
+
+.logo-link span {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 600; /* font-semibold */
+  white-space: nowrap;
+  color: #fff; /* dark:text-white */
+}
+
+/* Continue with similar conversions for other classes */
+.mega-menu {
+  /* Translated Tailwind classes for mega-menu-full */
+  width: 100%; /* w-full */
+  /* Add media query for md:flex, md:w-auto, md:order-1 */
+  position: relative;
+}
+
+.menu-list {
+  /* Translated Tailwind classes for the ul */
+  display: flex;
+  flex-direction: row; /* flex-col */
+  margin-top: 1rem; /* mt-4 */
+
+  /* Add media query for md:flex-row, md:mt-0, md:border-0, md:bg-white */
+}
+
+.menu-item {
+  color: #1f2937; /* text-gray-900 */
+  transition: 0.25s ease;
+  transition-property: color;
+  position: relative; /* This is necessary for absolute positioning of the submenu */
+
+  /* hover and dark mode styles */
+}
+.menu-item a {
+  color: black;
+}
+
+.dropdown-button {
+  /* Styles for dropdown button */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  /* Add other styles as needed */
+}
+
+.icon {
+  /* Styles for the SVG icon */
+  width: 0.625rem; /* w-2.5 */
+  height: 0.625rem; /* h-2.5 */
+  /* Adjust as necessary */
+}
+
+/* Include media queries and dark mode styles */
+
+/* Hide the submenu initially */
+/* Position the submenu block */
+.submenu {
+  display: none;
+  position: absolute;
+  top: 100%; /* Position it right below the navbar */
+  left: 0; /* Start from the very left of the menu_block */
+  width: 600px; /* Take the full width of the container */
+  /* Other styles... */
+}
+.submenu li {
+  margin-top: 50px;
+}
+
+.main_block {
+  position: relative; /* This is crucial for the submenu positioning */
+  left: 15%;
+}
+
+/* Show the submenu when hovering over the parent list item */
+/* Show the submenu when hovering over the parent list item */
+.menu-item:hover .submenu {
+  display: grid; /* or 'flex' depending on your layout */
+  /* Remove position, height, left, width properties if they conflict */
+  grid-template-columns: 1fr 1fr; /* Creates two columns of equal width */
+  gap: 20px;
+  border: 1px solid black;
+  background-color: #f7f7f7; /* bg-gray-50 */
+  border-radius: 0.5rem; /* rounded-lg */
+}
+.menu_block {
+  position: relative;
+  display: flex;
+  gap: 60px;
+  width: 100%; /* Ensure this is as wide as you want your submenu to be */
+}
+
+.menu-item a:hover {
+  background: black;
+  color: #d1d75d;
+  border: 1px solid black;
+  border-radius: 8px;
+}
+.submenu::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: var(--arrow-position, 50%);
+  transform: translateX(-50%) rotate(45deg);
+  width: 20px;
+  height: 20px;
+  background-color: #f7f7f7;
+  border-left: 1px solid black;
+  border-top: 1px solid black;
+  border-radius: 2px;
+}

@@ -2,19 +2,35 @@
   margin: 30px 0;
   @include ff-bold;
 }
-
-.btc {
+c {
   background: orange;
 }
 
 .walletTable {
   width: 100%;
-
+  display: block;
+  overflow-y: scroll;
+  height: 350px;
   td:first-child {
     padding-left: 0;
   }
 }
 
+.currencyContainer {
+  width: 100%;
+  overflow-y: scroll;
+  height: 413px;
+}
+.currencyTable {
+  width: 100%;
+  display: inline-table;
+  td:first-child {
+    padding-left: 0;
+  }
+}
+.currencyTable td {
+  padding: 28px 0;
+}
 .btns {
   display: flex;
   justify-content: space-between;
@@ -116,7 +132,7 @@
     bottom: 0;
     opacity: 0.1;
     content: '';
-    background: linear-gradient(180deg, var(--color-brand) 0%, rgba(97, 68, 229, 0) 100%);
+    //background: linear-gradient(180deg, var(--color-brand) 0%, rgba(97, 68, 229, 0) 100%);
   }
 }
 
@@ -127,6 +143,8 @@
   justify-content: space-between;
 
   button {
+    height: 100%;
+    min-height: 67px;
     width: 48%;
     z-index: 1;
   }
@@ -185,7 +203,9 @@
 
 @media all and (min-width: 993px) {
   .walletTable {
-    display: inline-table;
+    display: block;
+    overflow-y: scroll;
+    height: 600px;
   }
 }
 
@@ -213,8 +233,9 @@
 
 @media all and (min-width: 768px) and (max-width: 992px) {
   .walletTable {
-    display: inline-table;
-
+    display: block;
+    overflow-y: scroll;
+    height: 600px;
     td:first-child {
       padding-left: 0px;
     }
@@ -222,7 +243,6 @@
 }
 
 @media all and (max-width: 767px) {
-
   .yourBalance,
   .yourAssets {
     width: 100%;
@@ -230,8 +250,9 @@
   }
 
   .walletTable {
-    display: inline-table;
-
+    display: block;
+    overflow-y: scroll;
+    height: 600px;
     td:first-child {
       padding-left: 25px;
       left: auto;
@@ -276,7 +297,6 @@
 }
 
 @media all and (max-width: $media-mobile-end) {
-
   .yourBalance,
   .yourAssets {
     margin: 0 0 5px;

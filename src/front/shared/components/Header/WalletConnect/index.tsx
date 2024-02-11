@@ -12,9 +12,7 @@ import styles from './index.scss'
 import config from 'helpers/externalConfig'
 
 function WalletConnect(props) {
-  const {
-    metamaskData,
-  } = props
+  const { metamaskData } = props
 
   const isMetamaskConnected = metamaskData.isConnected
 
@@ -28,10 +26,16 @@ function WalletConnect(props) {
     metamask.handleConnectMetamask({
       dontRedirect: true,
     })
+    setTimeout(() => {
+      window.location.reload()
+    }, 5000)
   }
 
   const disconnectWallet = async () => {
     await metamask.disconnect()
+    setTimeout(() => {
+      window.location.reload()
+    }, 5000)
   }
 
   const openWalletConnectAccountModal = () => {
@@ -46,45 +50,32 @@ function WalletConnect(props) {
       styleName="connectWallet"
       onClick={
         isMetamaskConnected
-          ? (isNotAvailableMetamaskNetwork
+          ? isNotAvailableMetamaskNetwork
             ? disconnectWallet
-            : openWalletConnectAccountModal)
+            : openWalletConnectAccountModal
           : connectWallet
       }
     >
-      {disconnectedOrNetworkNotAvailable
-        ? (
-          <Coin
-            size={40}
-            name={web3Type}
-          />
-        )
-        : (
-          <Coin
-            size={30}
-            name={currencyName}
-          />
+      {disconnectedOrNetworkNotAvailable ? (
+        <Coin size={40} name={web3Type} />
+      ) : (
+        <Coin size={30} name={currencyName} />
+      )}
+      <span
+        styleName={`connectWalletText ${disconnectedOrNetworkNotAvailable ? '' : 'hasCoinIcon'}`}
+      >
+        {isNotAvailableMetamaskNetwork ? (
+          <FormattedMessage id="UnknownNetworkConnectedWallet" defaultMessage="Unknown Network" />
+        ) : isMetamaskConnected ? (
+          <Address address={metamaskData.address} format={AddressFormat.Short} />
+        ) : (
+          <FormattedMessage id="Exchange_ConnectAddressOption" defaultMessage="Connect Wallet" />
         )}
-      <span styleName={`connectWalletText ${disconnectedOrNetworkNotAvailable ? '' : 'hasCoinIcon'}`}>
-        {isNotAvailableMetamaskNetwork
-          ? <FormattedMessage id="UnknownNetworkConnectedWallet" defaultMessage="Unknown Network" />
-          : isMetamaskConnected
-            ? (
-              <Address
-                address={metamaskData.address}
-                format={AddressFormat.Short}
-              />
-            )
-            : <FormattedMessage id="Exchange_ConnectAddressOption" defaultMessage="Connect Wallet" />}
       </span>
     </div>
   )
 }
 
-export default connect(
-  ({
-    user,
-  }) => ({
-    metamaskData: user.metamaskData,
-  }),
-)(cssModules(WalletConnect, styles, { allowMultiple: true }))
+export default connect(({ user }) => ({
+  metamaskData: user.metamaskData,
+}))(cssModules(WalletConnect, styles, { allowMultiple: true }))

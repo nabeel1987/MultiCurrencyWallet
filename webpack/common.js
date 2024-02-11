@@ -1,8 +1,7 @@
 import child_process from 'child_process'
 import webpack from 'webpack'
 import ProgressBarPlugin from 'progress-bar-webpack-plugin'
-import FaviconsWebpackPlugin from 'favicons-webpack-plugin'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
+ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import AppConfigPlugin from 'app-config/webpack'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 import config from 'app-config'
@@ -97,16 +96,9 @@ const webpackConfig = {
 
     }),
     new ProgressBarPlugin({ clear: false }),
-    new FaviconsWebpackPlugin({
-      logo: config.paths.client('favicon.png'),
-      path: config.base,
-      favicons: {
-        appName: 'Wallet',
-        appDescription: 'Hot wallet',
-      },
-    }),
+   
     new HtmlWebpackPlugin({
-      title: 'Hot Wallet with p2p exchange',
+      title: 'Strikt Wallet',
       isWidget: config.isWidget,
       isBinanceBuild: config.binance,
       template: config.paths.client('index.html'),

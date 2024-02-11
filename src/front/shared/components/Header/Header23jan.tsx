@@ -461,7 +461,8 @@ class Header extends Component<any, any> {
     const flexebleHeaderRender = (
       <div styleName="flexebleHeader">
         <div styleName="leftArea">
-          <Nav menu={menuItems} />
+          <Logo />
+          {!isMobile && <Nav menu={menuItems} />}
         </div>
         <div styleName="rightArea">
           {!config.isExtension && Object.values(config.enabledEvmNetworks).length ? (

@@ -1,5 +1,5 @@
-@import "~sanitize.scss/_sanitize.scss";
-@import "fonts/index";
+@import '~sanitize.scss/_sanitize.scss';
+@import 'fonts/index';
 
 body {
   @include ff;
@@ -7,12 +7,16 @@ body {
   font-size: 16px;
   overflow-x: hidden;
 }
-
+.main_body {
+  max-width: 1400px;
+}
 html {
   box-sizing: border-box;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
 
@@ -37,8 +41,8 @@ button:focus,
   outline: none;
 }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }

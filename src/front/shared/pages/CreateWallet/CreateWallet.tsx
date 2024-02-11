@@ -23,8 +23,9 @@ import web3Icons from 'images'
 import StepsWrapper from './Steps/StepsWrapper'
 import styles from './CreateWallet.scss'
 
-const noInternalWallet = !!(config?.opts?.ui?.disableInternalWallet)
-const addAllEnabledWalletsAfterRestoreOrCreateSeedPhrase = !!config?.opts?.addAllEnabledWalletsAfterRestoreOrCreateSeedPhrase
+const noInternalWallet = !!config?.opts?.ui?.disableInternalWallet
+const addAllEnabledWalletsAfterRestoreOrCreateSeedPhrase =
+  !!config?.opts?.addAllEnabledWalletsAfterRestoreOrCreateSeedPhrase
 
 function CreateWallet(props) {
   const {
@@ -40,9 +41,7 @@ function CreateWallet(props) {
 
   const forcedCurrency = pathname.split('/')[2]
 
-  const {
-    btcData,
-  } = userData
+  const { btcData } = userData
 
   const userWallets = actions.core
     .getWallets({})
@@ -120,7 +119,9 @@ function CreateWallet(props) {
       return
     }
 
-    const isIgnoreSecondStep = !Object.keys(currencies).includes('BTC') || (Object.keys(currencies).includes('BTC') && hash !== '#pin')
+    const isIgnoreSecondStep =
+      !Object.keys(currencies).includes('BTC') ||
+      (Object.keys(currencies).includes('BTC') && hash !== '#pin')
     const standardConfigs = EXISTING_STANDARDS.map((standard) => TOKEN_STANDARDS[standard])
 
     for (const standardObj of standardConfigs) {
@@ -236,7 +237,10 @@ function CreateWallet(props) {
   let forcedCurrencyData
 
   if (forcedCurrency) {
-    forcedCurrencyData = allCurrencies.find(({ name, standard, value }) => (standard ? value.toUpperCase() : name) === forcedCurrency.toUpperCase())
+    forcedCurrencyData = allCurrencies.find(
+      ({ name, standard, value }) =>
+        (standard ? value.toUpperCase() : name) === forcedCurrency.toUpperCase()
+    )
     if (forcedCurrencyData) {
       currencies[forcedCurrency.toLowerCase()] = true
     }
@@ -247,73 +251,86 @@ function CreateWallet(props) {
   }
 
   const web3Type = metamask.web3connect.getInjectedType()
-  const web3Icon = (web3Icons[web3Type] && web3Type !== `UNKNOWN` && web3Type !== `NONE`) ? web3Icons[web3Type] : false
+  const web3Icon =
+    web3Icons[web3Type] && web3Type !== `UNKNOWN` && web3Type !== `NONE`
+      ? web3Icons[web3Type]
+      : false
 
-  const hasExternalWallet = (web3Type == 'NONE' && config.opts.hasWalletConnect) || (web3Type !== 'NONE')
-
+  const hasExternalWallet =
+    (web3Type == 'NONE' && config.opts.hasWalletConnect) || web3Type !== 'NONE'
+  const [info, setInfo] = useState(false)
+  function showInfo() {
+    setInfo((prevInfo) => !prevInfo)
+  }
   return (
     <div styleName="wrapper">
       {userWallets.length ? (
-        <CloseIcon
-          styleName="closeButton"
-          onClick={goHome}
-          data-testid="modalCloseIcon"
-        />
+        <CloseIcon styleName="closeButton" onClick={goHome} data-testid="modalCloseIcon" />
       ) : null}
 
       <div styleName={isMobile ? 'mobileFormBody' : 'formBody'}>
         <h2>
-          <FormattedMessage id="createWalletHeader1" defaultMessage="Создание кошелька" />
-          {' '}
+          <FormattedMessage id="createWalletHeader1" defaultMessage="Создание кошелька" />{' '}
           {forcedCurrency && forcedCurrency.toUpperCase()}
         </h2>
         <div styleName="buttonWrapper">
           {!noInternalWallet && (
             <>
-              <div>
-                <button onClick={handleRestoreMnemonic} type="button">
-                  <FormattedMessage id="ImportKeys_RestoreMnemonic" defaultMessage="Restore from 12-word seed" />
-                </button>
-                &nbsp;
-                <Tooltip id="ImportKeys_RestoreMnemonic_tooltip">
-                  <span>
-                    <FormattedMessage
-                      id="ImportKeys_RestoreMnemonic_Tooltip"
-                      defaultMessage="12-word backup phrase"
-                    />
-                    <br />
-                    <br />
-                    <div styleName="alertTooltipWrapper">
+              <button onClick={() => showInfo()}> {!info ? 'Show Info' : 'Hide Info'}</button>
+              {info && (
+                <>
+                  <div>
+                    <button onClick={handleRestoreMnemonic} type="button">
                       <FormattedMessage
-                        id="ImportKeys_RestoreMnemonic_Tooltip_withBalance"
-                        defaultMessage="Please, be causious!"
+                        id="ImportKeys_RestoreMnemonic"
+                        defaultMessage="Restore from 12-word seed"
                       />
-                    </div>
-                  </span>
-                </Tooltip>
-              </div>
-              <div>
-                <button onClick={handleRestoreShamirs} type="button">
-                  <FormattedMessage id="ImportKeys_RestoreShamirs" defaultMessage="Restore from Secret-Sharing" />
-                </button>
-                &nbsp;
-                <Tooltip id="ImportKeys_RestoreShamirsc_tooltip">
-                  <span>
-                    <FormattedMessage
-                      id="ImportKeys_RestoreShamirs_Tooltip"
-                      defaultMessage="Shamir's Secret-Sharing for Mnemonic Codes"
-                    />
-                    <br />
-                    <br />
-                    <div styleName="alertTooltipWrapper">
+                    </button>
+                    &nbsp;
+                    <Tooltip id="ImportKeys_RestoreMnemonic_tooltip">
+                      <span>
+                        <FormattedMessage
+                          id="ImportKeys_RestoreMnemonic_Tooltip"
+                          defaultMessage="12-word backup phrase"
+                        />
+                        <br />
+                        <br />
+                        <div styleName="alertTooltipWrapper">
+                          <FormattedMessage
+                            id="ImportKeys_RestoreMnemonic_Tooltip_withBalance"
+                            defaultMessage="Please, be causious!"
+                          />
+                        </div>
+                      </span>
+                    </Tooltip>
+                  </div>
+                  <div>
+                    <button onClick={handleRestoreShamirs} type="button">
                       <FormattedMessage
-                        id="ImportKeys_RestoreShamirs_Tooltip_withBalance"
-                        defaultMessage="Please, be causious!"
+                        id="ImportKeys_RestoreShamirs"
+                        defaultMessage="Restore from Secret-Sharing"
                       />
-                    </div>
-                  </span>
-                </Tooltip>
-              </div>
+                    </button>
+                    &nbsp;
+                    <Tooltip id="ImportKeys_RestoreShamirsc_tooltip">
+                      <span>
+                        <FormattedMessage
+                          id="ImportKeys_RestoreShamirs_Tooltip"
+                          defaultMessage="Shamir's Secret-Sharing for Mnemonic Codes"
+                        />
+                        <br />
+                        <br />
+                        <div styleName="alertTooltipWrapper">
+                          <FormattedMessage
+                            id="ImportKeys_RestoreShamirs_Tooltip_withBalance"
+                            defaultMessage="Please, be causious!"
+                          />
+                        </div>
+                      </span>
+                    </Tooltip>
+                  </div>
+                </>
+              )}
             </>
           )}
           {hasExternalWallet && (
@@ -321,10 +338,11 @@ function CreateWallet(props) {
               {!metamask.isConnected() && (
                 <div>
                   <button onClick={handleConnectWallet} type="button">
-                    {web3Icon && (
-                      <img styleName="connectWalletIcon" src={web3Icon} />
-                    )}
-                    <FormattedMessage id="ImportKeys_ConnectWallet" defaultMessage="Connect Wallet" />
+                    {web3Icon && <img styleName="connectWalletIcon" src={web3Icon} />}
+                    <FormattedMessage
+                      id="ImportKeys_ConnectWallet"
+                      defaultMessage="Connect Wallet"
+                    />
                   </button>
                   &nbsp;
                   <Tooltip id="CreateWallet_ConnectWalletTooltip">
@@ -339,31 +357,24 @@ function CreateWallet(props) {
           )}
         </div>
 
-        {
-          addAllEnabledWalletsAfterRestoreOrCreateSeedPhrase
-            ? (
-              <div style={{ display: 'flex', justifyContent: 'center', width: '60%', margin: 'auto' }}>
-                <Button blue fullWidth onClick={handleShowMnemonic}>
-                  <FormattedMessage
-                    id="BTCMS_SaveMnemonicButton"
-                    defaultMessage="Save secret phrase"
-                  />
-                </Button>
-              </div>
-            )
-            : (
-              <StepsWrapper
-                step={step}
-                forcedCurrencyData={forcedCurrencyData}
-                error={error}
-                onClick={validate}
-                setError={setError}
-                btcData={btcData}
-                currenciesForSecondStep={currencies}
-                showPinContent={hash === '#pin'}
-              />
-            )
-        }
+        {addAllEnabledWalletsAfterRestoreOrCreateSeedPhrase ? (
+          <div style={{ display: 'flex', justifyContent: 'center', width: '60%', margin: 'auto' }}>
+            <Button blue fullWidth onClick={handleShowMnemonic}>
+              <FormattedMessage id="BTCMS_SaveMnemonicButton" defaultMessage="Save secret phrase" />
+            </Button>
+          </div>
+        ) : (
+          <StepsWrapper
+            step={step}
+            forcedCurrencyData={forcedCurrencyData}
+            error={error}
+            onClick={validate}
+            setError={setError}
+            btcData={btcData}
+            currenciesForSecondStep={currencies}
+            showPinContent={hash === '#pin'}
+          />
+        )}
       </div>
     </div>
   )

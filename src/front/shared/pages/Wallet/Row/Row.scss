@@ -16,7 +16,7 @@
     color: var(--color-brand);
 
     &::before {
-      content: "";
+      content: '';
       position: absolute;
       left: 0;
       bottom: -0.1em;
@@ -68,7 +68,7 @@
   .icon {
     display: inline-block;
     margin-right: 5px;
-  }  
+  }
 }
 
 tr button:disabled,
@@ -195,7 +195,8 @@ tr button[disabled]:hover {
 
   a {
     font-size: 13px;
-    color: var(--color-link);
+    //  color: var(--color-link);
+    color: red !important;
   }
 }
 
@@ -203,8 +204,8 @@ tr button[disabled]:hover {
   font-weight: bold;
   height: 19px;
 
-  >span {
-    >div {
+  > span {
+    > div {
       position: relative;
       top: 0;
     }
@@ -217,7 +218,7 @@ tr button[disabled]:hover {
   }
 
   span {
-    +span {
+    + span {
       color: var(--color-notice);
       font-size: 14px;
       margin-left: 3px;
@@ -248,7 +249,7 @@ tr button[disabled]:hover {
 
   background: var(--color-background-elements);
 
-  >span {
+  > span {
     font-size: 11px;
     color: #c9c9c9;
     margin-right: 5px;
@@ -271,8 +272,8 @@ tr button[disabled]:hover {
   .assetsTableInfo {
     position: relative;
 
-    >span {
-      >div {
+    > span {
+      > div {
         right: auto;
         top: 0;
       }
@@ -288,8 +289,8 @@ tr button[disabled]:hover {
   .assetsTableInfo {
     position: relative;
 
-    >span {
-      >div {
+    > span {
+      > div {
         right: auto;
       }
     }
@@ -309,8 +310,8 @@ tr button[disabled]:hover {
   .assetsTableInfo {
     position: relative;
 
-    >span {
-      >div {
+    > span {
+      > div {
         right: auto;
         position: absolute;
         top: 25px;
@@ -334,7 +335,7 @@ tr button[disabled]:hover {
       width: calc(100vw - 95px);
       height: 40px;
 
-      >span {
+      > span {
         font-size: 10px;
         top: 20px;
         width: 84%;
@@ -385,7 +386,7 @@ tr button[disabled]:hover {
 
   .nameRow {
     font-size: 0.7em;
-  
+
     a.linkToHistory {
       font-size: inherit;
     }

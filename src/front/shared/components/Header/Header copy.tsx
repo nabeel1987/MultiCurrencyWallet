@@ -374,19 +374,19 @@ class Header extends Component<any, any> {
   handleToggleTheme = () => {
     this.setState(() => ({ themeSwapAnimation: true }))
 
-    const wasDark = localStorage.getItem(constants.localStorage.isDark)
+    const wasDark = localStorage.getItem(constants.localStorage.isLight)
     const dataset = document.body.dataset
 
-    feedback.theme.switched(wasDark ? 'light' : 'dark')
+    feedback.theme.switched(wasDark ? 'dark' : 'light')
 
     if (wasDark) {
-      localStorage.removeItem(constants.localStorage.isDark)
-      localStorage.setItem(constants.localStorage.isLight, 'true')
-      dataset.scheme = 'default'
-    } else {
       localStorage.removeItem(constants.localStorage.isLight)
       localStorage.setItem(constants.localStorage.isDark, 'true')
-      dataset.scheme = 'dark'
+      dataset.scheme = 'default'
+    } else {
+      localStorage.removeItem(constants.localStorage.isDark)
+      localStorage.setItem(constants.localStorage.isLight, 'true')
+      dataset.scheme = 'light'
     }
 
     this.setState(() => ({ themeSwapAnimation: false }))
@@ -461,12 +461,24 @@ class Header extends Component<any, any> {
     const flexebleHeaderRender = (
       <div styleName="flexebleHeader">
         <div styleName="leftArea">
-          <Nav menu={menuItems} />
+          <Logo />
         </div>
         <div styleName="rightArea">
           {!config.isExtension && Object.values(config.enabledEvmNetworks).length ? (
             <WalletConnect />
           ) : null}
+
+          {window.WPSO_selected_theme !== 'only_light' &&
+            window.WPSO_selected_theme !== 'only_dark' && (
+              <ThemeSwitcher onClick={this.handleToggleTheme} />
+            )}
+
+          {isLogoutPossible && ( // some wordpress plugin cases
+            <div styleName="logoutWrapper" onClick={this.handleLogout}>
+              <i className="fas fa-sign-out-alt" />
+              <FormattedMessage id="ExitWidget" defaultMessage="Exit" />
+            </div>
+          )}
         </div>
       </div>
     )
@@ -504,6 +516,11 @@ class Header extends Component<any, any> {
           {isTourOpen && isWalletPage && (
             <div styleName="walletTour">
               <WalletTour isTourOpen={isTourOpen} closeTour={this.closeTour} />
+            </div>
+          )}
+          {isWidgetTourOpen && isWalletPage && (
+            <div styleName="walletTour">
+              <WidgetWalletTour isTourOpen={isWidgetTourOpen} closeTour={this.closeWidgetTour} />
             </div>
           )}
         </header>

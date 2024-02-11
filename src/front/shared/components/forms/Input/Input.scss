@@ -1,6 +1,6 @@
 input,
 textarea {
-  background: none;
+  background: #f4f4f6;
   outline: none;
   border: 0;
   border-radius: 0;
@@ -10,11 +10,11 @@ textarea {
   width: 100%;
   height: 68px;
   padding: 0 16px;
-  border-radius: 2px;
+  border-radius: 8px;
   vertical-align: top;
   line-height: 14px;
   box-shadow: none;
-  font-size: 15px;
+  font-size: 16px;
   padding-left: 15px;
   font-family: 'Roboto Mono', monospace;
   border: 1px solid var(--color-border);
@@ -61,7 +61,7 @@ textarea {
   &.withError {
     border-color: var(--color-f-error);
 
-    .input~.label {
+    .input ~ .label {
       color: var(--color-f-error);
     }
   }

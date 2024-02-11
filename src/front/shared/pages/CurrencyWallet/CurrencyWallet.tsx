@@ -29,7 +29,6 @@ import getCurrencyKey from 'helpers/getCurrencyKey'
 import lsDataCache from 'helpers/lsDataCache'
 import getCoinInfo from 'common/coins/getCoinInfo'
 
-
 const isWidgetBuild = config && config.isWidget
 
 @connect(
@@ -37,12 +36,7 @@ const isWidgetBuild = config && config.isWidget
     core,
     user,
     history: { transactions, swapHistory },
-    user: {
-      activeFiat,
-      activeCurrency,
-      isBalanceFetching,
-      multisigPendingCount,
-    },
+    user: { activeFiat, activeCurrency, isBalanceFetching, multisigPendingCount },
   }) => ({
     user,
     activeFiat,
@@ -81,12 +75,11 @@ class CurrencyWallet extends Component<any, any> {
     if (!itemCurrency.length) {
       itemCurrency = items.filter((item) => {
         if (
-          (item.balance >= 0)
-          && (
-            (item.currency.toLowerCase() === ticker.toLowerCase())
-            || (item.tokenKey && item.tokenKey.toLowerCase() === ticker.toLowerCase())
-          )
-        ) return true
+          item.balance >= 0 &&
+          (item.currency.toLowerCase() === ticker.toLowerCase() ||
+            (item.tokenKey && item.tokenKey.toLowerCase() === ticker.toLowerCase()))
+        )
+          return true
       })
     }
 
@@ -94,10 +87,21 @@ class CurrencyWallet extends Component<any, any> {
       itemCurrency = itemCurrency[0]
 
       //@ts-ignore
-      const { currency, standard, tokenKey, address, contractAddress, decimals, balance, infoAboutCurrency } = itemCurrency
-      const hasCachedData = lsDataCache.get(`TxHistory_${getCurrencyKey(currency, true).toLowerCase()}_${walletAddress}`)
+      const {
+        currency,
+        standard,
+        tokenKey,
+        address,
+        contractAddress,
+        decimals,
+        balance,
+        infoAboutCurrency,
+      } = itemCurrency
+      const hasCachedData = lsDataCache.get(
+        `TxHistory_${getCurrencyKey(currency, true).toLowerCase()}_${walletAddress}`
+      )
 
-console.log('>>> standard, tokenKey', standard, tokenKey)
+      console.log('>>> standard, tokenKey', standard, tokenKey)
       this.state = {
         itemCurrency,
         address,
@@ -121,14 +125,11 @@ console.log('>>> standard, tokenKey', standard, tokenKey)
 
   componentDidMount() {
     this.mounted = true
-    
+
     const {
       currency,
       itemCurrency,
-      itemCurrency: {
-        tokenKey,
-        standard,
-      },
+      itemCurrency: { tokenKey, standard },
       token,
       balance,
       infoAboutCurrency,
@@ -139,13 +140,10 @@ console.log('>>> standard, tokenKey', standard, tokenKey)
 
     let {
       match: {
-        params: {
-          address = null,
-          action,
-        },
+        params: { address = null, action },
       },
       activeCurrency,
-      activeFiat
+      activeFiat,
     } = this.props
 
     if (action == 'send') {
@@ -161,9 +159,10 @@ console.log('>>> standard, tokenKey', standard, tokenKey)
     } else {
       const actionName = currency.toLowerCase()
 
-      address && actions[getCurrencyKey(actionName, false)]
-        .fetchBalance(address)
-        .then((balance) => this.setState({ balance }))
+      address &&
+        actions[getCurrencyKey(actionName, false)]
+          .fetchBalance(address)
+          .then((balance) => this.setState({ balance }))
     }
 
     if (action !== 'send') {
@@ -197,7 +196,7 @@ console.log('>>> standard, tokenKey', standard, tokenKey)
 
     if (this.props.history.location.pathname.toLowerCase() === receiveUrl.toLowerCase()) {
       actions.modals.open(constants.modals.ReceiveModal, {
-        currency: (tokenKey || currency),
+        currency: tokenKey || currency,
         address,
         standard,
       })
@@ -233,7 +232,7 @@ console.log('>>> standard, tokenKey', standard, tokenKey)
     ) {
       const items = actions.core.getWallets({})
       const walletAddress = address
-      
+
       let itemCurrency = this.filterCurrencies({
         items,
         ticker,
@@ -243,12 +242,11 @@ console.log('>>> standard, tokenKey', standard, tokenKey)
       if (!itemCurrency.length) {
         itemCurrency = items.filter((item) => {
           if (
-            (item.balance >= 0)
-            && (
-              (item.currency.toLowerCase() === ticker.toLowerCase())
-              || (item.tokenKey && item.tokenKey.toLowerCase() === ticker.toLowerCase())
-            )
-          ) return true
+            item.balance >= 0 &&
+            (item.currency.toLowerCase() === ticker.toLowerCase() ||
+              (item.tokenKey && item.tokenKey.toLowerCase() === ticker.toLowerCase()))
+          )
+            return true
         })
       }
 
@@ -264,11 +262,11 @@ console.log('>>> standard, tokenKey', standard, tokenKey)
           tokenKey,
           standard,
         } = itemCurrency
-        const {
-          txItems: oldTxItems,
-        } = this.state
+        const { txItems: oldTxItems } = this.state
 
-        const hasCachedData = lsDataCache.get(`TxHistory_${getCurrencyKey(currency, true).toLowerCase()}_${address}`)
+        const hasCachedData = lsDataCache.get(
+          `TxHistory_${getCurrencyKey(currency, true).toLowerCase()}_${address}`
+        )
 
         if (!this.mounted) return
         const token = erc20Like.isToken({ name: ticker })
@@ -280,7 +278,7 @@ console.log('>>> standard, tokenKey', standard, tokenKey)
             decimals,
             currency,
             balance,
-            txItems: (hasCachedData || oldTxItems),
+            txItems: hasCachedData || oldTxItems,
             contractAddress,
             isLoading: false,
             infoAboutCurrency,
@@ -301,9 +299,10 @@ console.log('>>> standard, tokenKey', standard, tokenKey)
               } else {
                 const actionName = currency.toLowerCase()
 
-                address && actions[getCurrencyKey(actionName, false)]
-                  .fetchBalance(address)
-                  .then((balance) => this.setState({ balance }))
+                address &&
+                  actions[getCurrencyKey(actionName, false)]
+                    .fetchBalance(address)
+                    .then((balance) => this.setState({ balance }))
               }
 
               if (action !== 'send') {
@@ -332,7 +331,7 @@ console.log('>>> standard, tokenKey', standard, tokenKey)
 
             if (currentUrl === receiveUrl.toLowerCase()) {
               actions.modals.open(constants.modals.ReceiveModal, {
-                currency: (tokenKey || currency),
+                currency: tokenKey || currency,
                 address,
                 standard,
               })
@@ -350,13 +349,10 @@ console.log('>>> standard, tokenKey', standard, tokenKey)
   filterCurrencies = (params) => {
     const { items, ticker, walletAddress } = params
 
-    const {
-      coin,
-      blockchain,
-    } = getCoinInfo(ticker)
+    const { coin, blockchain } = getCoinInfo(ticker)
 
     return items.filter((item) => {
-      let {currency: currencyName} = item
+      let { currency: currencyName } = item
 
       switch (currencyName.toLowerCase()) {
         case 'btc (multisig)':
@@ -365,9 +361,10 @@ console.log('>>> standard, tokenKey', standard, tokenKey)
           currencyName = 'btc'
       }
 
-      const blockchainOk = (blockchain && item.blockchain)
-        ? item.blockchain.toLowerCase() === blockchain.toLowerCase()
-        : ((blockchain && !item.blockchain) || (!blockchain && item.blockchain))
+      const blockchainOk =
+        blockchain && item.blockchain
+          ? item.blockchain.toLowerCase() === blockchain.toLowerCase()
+          : (blockchain && !item.blockchain) || (!blockchain && item.blockchain)
           ? false
           : true
 
@@ -402,14 +399,11 @@ console.log('>>> standard, tokenKey', standard, tokenKey)
     const {
       currency,
       address,
-      itemCurrency: {
-        tokenKey,
-        standard,
-      },
+      itemCurrency: { tokenKey, standard },
     } = this.state
 
     actions.modals.open(constants.modals.ReceiveModal, {
-      currency: (tokenKey || currency),
+      currency: tokenKey || currency,
       address,
       standard,
     })
@@ -432,19 +426,15 @@ console.log('>>> standard, tokenKey', standard, tokenKey)
     const { itemCurrency, currency, address } = this.state
 
     const targetCurrency = getCurrencyKey(currency.toLowerCase(), true).toLowerCase()
-    const firstUrlPart = itemCurrency.tokenKey ? `/token/${itemCurrency.tokenKey}` : `/${targetCurrency}`
+    const firstUrlPart = itemCurrency.tokenKey
+      ? `/token/${itemCurrency.tokenKey}`
+      : `/${targetCurrency}`
 
-    history.push(localisedUrl(
-      locale,
-      `${firstUrlPart}/${address}/send`
-    ))
+    history.push(localisedUrl(locale, `${firstUrlPart}/${address}/send`))
   }
 
   rowRender = (row, rowIndex) => {
-    const {
-      history,
-      activeFiat,
-    } = this.props
+    const { history, activeFiat } = this.props
 
     return <Row key={rowIndex} {...row} activeFiat={activeFiat} history={history} />
   }
@@ -501,10 +491,7 @@ console.log('>>> standard, tokenKey', standard, tokenKey)
     const {
       currency,
       itemCurrency,
-      itemCurrency: {
-        isToken,
-        tokenKey,
-      },
+      itemCurrency: { isToken, tokenKey },
       balance,
       infoAboutCurrency,
       txItems,
@@ -513,7 +500,9 @@ console.log('>>> standard, tokenKey', standard, tokenKey)
     } = this.state
 
     let currencyName = currency.toLowerCase()
-    let currencyViewName = (isToken) ? currency.replaceAll(`*`,``).toLowerCase() : currency.toLowerCase()
+    let currencyViewName = isToken
+      ? currency.replaceAll(`*`, ``).toLowerCase()
+      : currency.toLowerCase()
 
     switch (currencyName) {
       case 'btc (multisig)':
@@ -525,22 +514,21 @@ console.log('>>> standard, tokenKey', standard, tokenKey)
     txHistory = txItems || txHistory
 
     if (txHistory) {
-      
       txHistory = txHistory.filter((tx) => {
         if (tx?.type) {
-          return (isToken) ? (tx.tokenKey === tokenKey) : (tx.type.toLowerCase() === currencyName)
+          return isToken ? tx.tokenKey === tokenKey : tx.type.toLowerCase() === currencyName
         }
         return false
       })
     }
 
-    const showSwapHistory = (address.toLowerCase() === itemCurrency.address.toLowerCase())
+    const showSwapHistory = address.toLowerCase() === itemCurrency.address.toLowerCase()
 
     if (showSwapHistory)
       swapHistory = Object.keys(swapHistory)
-      .map((key) => swapHistory[key])
-      .filter((swap) => swap.sellCurrency === currency || swap.buyCurrency === currency)
-      .reverse()
+        .map((key) => swapHistory[key])
+        .filter((swap) => swap.sellCurrency === currency || swap.buyCurrency === currency)
+        .reverse()
 
     const seoPage = getSeoPage(location.pathname)
 
@@ -573,8 +561,9 @@ console.log('>>> standard, tokenKey', standard, tokenKey)
     let currencyFiatBalance
 
     if (infoAboutCurrency && infoAboutCurrency.price_fiat) {
-      currencyFiatBalance =
-        new BigNumber(balance).dp(6, BigNumber.ROUND_FLOOR).toString() as any * infoAboutCurrency.price_fiat as any
+      currencyFiatBalance = ((new BigNumber(balance)
+        .dp(6, BigNumber.ROUND_FLOOR)
+        .toString() as any) * infoAboutCurrency.price_fiat) as any
     } else {
       currencyFiatBalance = 0
     }
@@ -606,16 +595,14 @@ console.log('>>> standard, tokenKey', standard, tokenKey)
               handleReceive={this.handleReceive}
               handleWithdraw={this.handleWithdraw}
               handleInvoice={this.handleInvoice}
-              showButtons={actions.user.isOwner(
-                address,
-                itemCurrency.tokenKey || currencyName
-              )}
+              showButtons={actions.user.isOwner(address, itemCurrency.tokenKey || currencyName)}
               currency={currency.toLowerCase()}
               currencyView={currencyViewName}
               singleWallet={true}
               multisigPendingCount={multisigPendingCount}
             />
           }
+          History=""
         >
           <div styleName="currencyWalletActivity">
             <FilterForm
@@ -628,14 +615,14 @@ console.log('>>> standard, tokenKey', standard, tokenKey)
               !isLoading &&
               (txHistory.length > 0 ? (
                 // TODO: use the infinite list component or smth else
-                // if we have lots of tx with the Table then it 
+                // if we have lots of tx with the Table then it
                 // load long time and display all transaction
                 <Table rows={txHistory} styleName="currencyHistory" rowRender={this.rowRender} />
               ) : (
-                  <div styleName="historyContent">
-                    <ContentLoader rideSideContent empty nonHeader inner />
-                  </div>
-                ))}
+                <div styleName="historyContent">
+                  <ContentLoader rideSideContent empty nonHeader inner />
+                </div>
+              ))}
             {(!txHistory || isLoading) && (
               <div styleName="historyContent">
                 <ContentLoader rideSideContent nonHeader />
@@ -646,12 +633,10 @@ console.log('>>> standard, tokenKey', standard, tokenKey)
             <>
               {!actions.btcmultisig.isBTCMSUserAddress(`${address}`) &&
                 (swapHistory.filter((item) => item.step >= 1).length > 0 ? (
-                    <SwapsHistory orders={swapHistory.filter((item) => item.step >= 4)} />
-                  ) : (
-                    ''
-                  )
-                )
-              }
+                  <SwapsHistory orders={swapHistory.filter((item) => item.step >= 4)} />
+                ) : (
+                  ''
+                ))}
             </>
           )}
         </DashboardLayout>

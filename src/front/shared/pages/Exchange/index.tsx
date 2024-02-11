@@ -22,7 +22,8 @@ const Exchange = function (props) {
   const noNetworks = !Object.values(externalConfig.enabledEvmNetworks).length
 
   const validMode = globalMode && GlobalModes[globalMode]
-  let showOnlyOneType = validMode === GlobalModes.only_atomic || validMode === GlobalModes.only_quick
+  let showOnlyOneType =
+    validMode === GlobalModes.only_atomic || validMode === GlobalModes.only_quick
 
   const exchangeSettings = localStorage.getItem(constants.localStorage.exchangeSettings) || {}
   let initialState = location.pathname.match(/\/exchange\/quick/) ? 'quick' : 'atomic'
@@ -79,24 +80,42 @@ const Exchange = function (props) {
   }
 
   return (
-    <div>
+    <div style={{ marginTop: '5.1%' }}>
       {!showOnlyOneType && (
-        <div styleName="tabsWrapper">
+        <>
+          <div styleName="tabsWrapper">
+            <button
+              type="button"
+              styleName={`tab ${swapMode === 'quick' ? 'active' : ''}`}
+              onClick={openQuickMode}
+            >
+              <FormattedMessage id="quickSwap" defaultMessage="Quick swap" />
+            </button>
+            <button
+              type="button"
+              styleName={`tab ${swapMode === 'atomic' ? 'active' : ''}`}
+              onClick={openAtomicMode}
+            >
+              <FormattedMessage id="atomicSwap" defaultMessage="Atomic swap" />
+            </button>
+          </div>
           <button
-            type="button"
-            styleName={`tab ${swapMode === 'quick' ? 'active' : ''}`}
-            onClick={openQuickMode}
+            onClick={() => (window.location.href = 'http://localhost:9001/#/')}
+            style={{
+              zIndex: '9999',
+              borderRadius: '50px',
+              border: '1px solid black',
+              width: '30px',
+              height: '30px',
+              position: 'absolute',
+              right: '250px',
+              margin: 'auto',
+              textAlign: 'center',
+            }}
           >
-            <FormattedMessage id="quickSwap" defaultMessage="Quick swap" />
+            X
           </button>
-          <button
-            type="button"
-            styleName={`tab ${swapMode === 'atomic' ? 'active' : ''}`}
-            onClick={openAtomicMode}
-          >
-            <FormattedMessage id="atomicSwap" defaultMessage="Atomic swap" />
-          </button>
-        </div>
+        </>
       )}
 
       {swapMode === 'quick' && !noNetworks && (

@@ -1,49 +1,209 @@
-.nav {
+.nav-bg {
+  background-color: white;
+}
+
+.logo-link {
+  display: flex;
+  gap: 12px; /* space-x-3 */
+}
+
+.logo-link span {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 600; /* font-semibold */
+  white-space: nowrap;
+  color: #fff; /* dark:text-white */
+}
+
+.menu-item {
+  padding: 2px 13px;
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for background and color */
+}
+.menu-item a {
+  color: black;
+}
+
+.menu-wrapper {
+  position: relative; // This makes it the positioned ancestor for submenu_block
+}
+
+.submenu::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: var(--arrow-position, 50%);
+  transform: translateX(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background-color: #f7f7f7;
+  border-left: 1px solid black;
+  border-top: 1px solid black;
+  border-radius: 2px;
+}
+.submenu > div {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
-.mainMenu {
-  margin-left: 13px;
-  margin-right: 13px;
-  position: relative;
+.menu-item:hover,
+.menu-item.active {
+  background-color: black;
+  color: #d1d75d !important;
+  padding: 2px 13px;
+  border-radius: 8px;
+}
+.menu-item-wrapper {
+  /* Add any necessary styles here, like display: inline-block or similar */
+  display: inline-block;
 }
 
-.link {
-  display: inline-flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  text-decoration: none;
-  cursor: pointer;
-  transition: color 0.1s ease;
-  font-weight: 800;
-  font-size: 15px;
-  @include ff-bold;
-  line-height: 140%;
-  color: var(--color-notice);
-  white-space: nowrap;
+.menu-item.active {
+  padding: 2px 13px;
+  border-radius: 8px;
+  background-color: black;
+  color: #d1d75d;
+}
+.menu-wrapper .menu-item.active a,
+.menu-wrapper .menu-item:hover a {
+  color: #d1d75d; /* Ensure this applies to the <a> tag as well */
+}
 
-  &:hover,
-  &.active {
-    color: var(--color);
+.submenu a {
+  color: black;
+  padding: 2px 13px;
+}
+.submenu div:hover a {
+  padding: 2px 13px;
+  border-radius: 8px;
+  background-color: black;
+  color: #d1d75d;
+}
+
+/* Default state for mobile */
+@media screen and (max-width: 767px) {
+  .mobile_menu a {
+    color: black !important;
   }
-}
+  .menu-list {
+    display: flex;
+    gap: 50px;
+    padding: 0;
+    margin: 0 20px;
+  }
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1280px; /* max-w-screen-xl */
+    gap: 1px;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: row;
+  }
+  .menu-wrapper {
+    display: none;
+  }
+  .nav-bg {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .menu-list {
+    display: none;
+    flex-direction: column;
+  }
+  .mobile_menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-around;
+    margin: 0 auto;
+    position: absolute;
+    /* bottom: 0; */
+    top: 10px;
+    background-color: white !important;
+    z-index: 9999999999999;
+    /* right: 0; */
+    left: 140px;
+    padding: 0 20px;
+  }
+  .menu-toggle {
+    display: block;
+  }
 
-@media screen and (max-width: 860px) {
-  .nav {
+  .submenu {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    height: 100%; /* Add this line */
     padding: 0;
   }
 }
 
-@media screen and (max-width: 660px) {
-  .link {
-    font-size: 13px;
-  }
+/* Override when mobile-visible is active */
+.mobile-visible {
+  display: block; /* Show menu when this class is added */
+  position: relative;
 }
-
-@media screen and (max-width: 560px) {
-  .link {
+.desktop-visible {
+  display: none; /* Show menu when this class is added */
+}
+/* Styles for larger screens */
+@media screen and (min-width: 768px) {
+  .mobile_menu-list {
     display: none;
+  }
+  .menu-list {
+    display: flex;
+    gap: 50px;
+    padding: 0;
+    margin: auto;
+  }
+  .desktop-visible {
+    display: block; /* Show menu when this class is added */
+  }
+  .nav-bg {
+    display: block;
+  }
+  .menu-wrapper {
+    display: block; /* Menu is always visible on desktop */
+  }
+  .menu-toggle {
+    display: none; /* Hide toggle button on larger screens */
+  }
+
+  .submenu {
+    display: grid; /* or 'flex' depending on your layout */
+    /* Remove position, height, left, width properties if they conflict */
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    height: 100%; /* Add this line */
+    padding: 0;
+  }
+  .submenu_block {
+    width: 500px;
+    height: 50px;
+    padding: 0;
+    border: 1px solid black;
+    background-color: #f7f7f7; /* bg-gray-50 */
+    border-radius: 0.5rem; /* rounded-lg */
+    position: absolute;
+    left: 0;
+    margin-top: 0px; /* Adjust the value as needed */
+
+    z-index: 100; /* Example z-index to ensure it's above other content */
+    display: flex; /* Use flexbox for horizontal alignment */
+    justify-content: center; /* Center-align items horizontally */
+    align-items: center; /* Add this line */
+  }
+  .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1580px; /* max-w-screen-xl */
+    gap: 40px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }

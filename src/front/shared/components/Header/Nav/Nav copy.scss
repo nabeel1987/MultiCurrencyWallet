@@ -1,0 +1,102 @@
+.nav {
+  display: flex;
+  align-items: center;
+  margin-left: 40px;
+}
+.submenuContainer {
+  position: relative; /* Needed for absolute positioning of submenu */
+}
+
+.submenu {
+  display: none; /* Hidden by default */
+  position: absolute;
+  background-color: white;
+  color: #f4f4f6;
+  top: 100%; /* Adjust this to position right below the parent link */
+  left: 0;
+  padding: 20px;
+  width: 140px;
+
+  flex-direction: column;
+  gap: 24px;
+  margin-left: -40px;
+}
+
+.submenu .link {
+  text-decoration: none !important;
+}
+
+.submenuContainer:hover .submenu {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-left: -40px;
+}
+
+.mainMenu {
+  margin: 0 auto;
+  display: flex;
+  gap: 48px;
+  justify-content: space-between;
+  position: relative;
+}
+
+.link {
+  margin: 0 auto;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.1s ease;
+  font-weight: bold;
+  font-size: 14px;
+  gap: 10px;
+  @include ff-bold;
+  line-height: 140%;
+  color: black;
+  opacity: 0.6;
+  white-space: nowrap;
+
+  &:hover,
+  &.active {
+    text-decoration: underline;
+    text-underline-offset: 20px;
+    color: var(--color);
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .nav {
+    padding: 0;
+    margin-left: 0;
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 660px) {
+  .nav {
+    padding: 0;
+    margin-left: 0;
+    display: flex;
+    align-items: center;
+  }
+  .link {
+    font-size: 13px;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .nav {
+    padding: 0;
+    margin-left: 0;
+    display: flex;
+    align-items: center;
+  }
+  .link {
+    display: none;
+  }
+}

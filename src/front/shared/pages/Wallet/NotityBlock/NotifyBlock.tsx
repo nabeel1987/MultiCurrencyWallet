@@ -4,7 +4,6 @@ import CSSModules from 'react-css-modules'
 import styles from './NotifyBlock.scss'
 import feedback from 'shared/helpers/feedback'
 
-
 interface INotifyBlockProps {
   className?: string
   background: string
@@ -16,16 +15,7 @@ interface INotifyBlockProps {
 }
 
 const NotifyBlock = (props: INotifyBlockProps & RouteComponentProps) => {
-  const {
-    className,
-    icon,
-    text,
-    onPress,
-    background,
-    link,
-    feedbackText,
-    history,
-  } = props
+  const { className, icon, text, onPress, background, link, feedbackText, history } = props
 
   const handleClick = () => {
     onPress && onPress()
@@ -53,13 +43,12 @@ const NotifyBlock = (props: INotifyBlockProps & RouteComponentProps) => {
         <div styleName="notifyBlockIcon">
           <img src={icon} alt="" />
         </div>
-        <div styleName="notifyBlockDescr">
-          <span>{text}</span>
+        <div styleName="notifyBlockDescr" style={{ color: 'black !important' }}>
+          <span style={{ color: 'black !important' }}>{text}</span>
         </div>
       </div>
     </div>
   )
 }
-
 
 export default withRouter(CSSModules(NotifyBlock, styles, { allowMultiple: true }))

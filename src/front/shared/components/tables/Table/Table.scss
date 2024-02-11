@@ -26,6 +26,7 @@ $walletPaddingTop: 41px;
 
     tr {
       border-top: 1px solid var(--color-pale);
+      width: 480px;
     }
   }
 
@@ -106,14 +107,16 @@ $walletPaddingTop: 41px;
 
   thead {
     display: block;
-    box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .03);
+    box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.03);
   }
 }
 
 .history {
   width: 100%;
   margin-top: 20px;
-  display: inline-table;
+  display: block;
+  height: 350px;
+  overflow-y: scroll;
 
   thead {
     border: none;
@@ -122,13 +125,12 @@ $walletPaddingTop: 41px;
   td,
   td:first-child {
     width: 100%;
-    padding: 0;
   }
 }
 
 // Exchange and Swap history
 .historySwap {
-  font-size: 14px;
+  font-size: 12px;
   width: 100%;
   margin-top: 30px;
 
@@ -148,7 +150,7 @@ $walletPaddingTop: 41px;
     }
 
     td {
-      padding: 10px 20px !important;
+      padding: 23px 0 !important;
       display: flex !important;
       justify-content: space-between;
       border-bottom: 1px solid var(--color-inactive-border);
@@ -162,6 +164,9 @@ $walletPaddingTop: 41px;
       p {
         margin: 0;
       }
+      a {
+        font-size: 14px !important;
+      }
     }
   }
 
@@ -170,10 +175,9 @@ $walletPaddingTop: 41px;
   }
 
   a {
-    font-size: 14px;
+    font-size: 12px;
   }
 }
-
 
 @include media-tablet-landscape-and-lower {
   table {
@@ -182,7 +186,6 @@ $walletPaddingTop: 41px;
 
   // Wallet
   .wallet {
-
     th:last-child {
       padding-left: 30px;
     }
@@ -194,7 +197,6 @@ $walletPaddingTop: 41px;
     & th {
       padding: 15px 10px;
     }
-
   }
 
   // History
@@ -217,7 +219,6 @@ $walletPaddingTop: 41px;
   }
 }
 
-
 table.wallet {
   tr {
     display: table-row;
@@ -225,13 +226,11 @@ table.wallet {
 }
 
 @include media-tablet {
-
   table {
     overflow-x: auto;
   }
 
   table.wallet {
-
     td:nth-child(2) {
       width: 12%;
     }
@@ -256,8 +255,7 @@ table.wallet {
   }
 }
 
-
-@media all and (min-width: 570px) and (max-width:1024px) {
+@media all and (min-width: 570px) and (max-width: 1024px) {
   table.wallet {
     td:nth-child(4) {
       width: 80px;
@@ -330,10 +328,9 @@ table.wallet {
   }
 }
 
-
-@media all and (max-width:1024px) {
+@media all and (max-width: 1024px) {
   .table.exchange {
-    min-height: 130px;
+    min-height: 200px;
   }
 
   table {
@@ -350,7 +347,7 @@ table.wallet {
     margin-left: -45px;
 
     th {
-      font-size: 13px;
+      font-size: 10px !important;
     }
 
     th:last-child {

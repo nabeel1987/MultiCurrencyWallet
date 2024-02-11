@@ -490,11 +490,10 @@ class App extends React.Component<RouteComponentProps<any>, any> {
             {/* @ts-ignore */}
             <WidthContainer id="swapComponentWrapper" styleName="headerAndMain">
               <Header />
-              <main>{children}</main>
+              <main style={{maxWidth:'1400px', margin:'0 auto'}}>{children}</main>
             </WidthContainer>
             <Core />
-            <Footer />
-            <RequestLoader />
+             <RequestLoader />
             {!dashboardModalsAllowed &&
               <ModalConductor history={history}
             />}

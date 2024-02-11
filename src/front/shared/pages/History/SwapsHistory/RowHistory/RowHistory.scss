@@ -1,19 +1,27 @@
-
 .statusFinished {
-  color: var(--color-good);
+  font-size: 6px !important;
+  color: #f5fa80;
+  background-color: black !important;
+  border-radius: 10px;
 }
 
 .statusRefunded {
-  color: var(--color-good);
+  font-size: 6px !important;
+  color: #f5fa80;
+  background-color: black !important;
+  border-radius: 10px;
 }
 
 .statusStopped {
-  text-align: right;
-  color: var(--color-f-error);
+  font-size: 6px !important;
+  color: #f5fa80;
+  background-color: black !important;
+  border-radius: 10px;
 
   .refundStatus {
-    max-width: 10em;
-    font-size: 0.88em;
-    color: var(--color-indicating);
+    font-size: 6px !important;
+    color: #f5fa80;
+    background-color: black !important;
+    border-radius: 10px;
   }
 }

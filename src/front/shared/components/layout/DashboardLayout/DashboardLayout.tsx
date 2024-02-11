@@ -10,6 +10,7 @@ type ComponentProps = {
   page: 'history' | 'invoices'
   children?: ReactNode
   BalanceForm: ReactNode
+  History: ReactNode
 }
 
 const DashboardLayout = (props: ComponentProps) => {
@@ -29,19 +30,12 @@ const DashboardLayout = (props: ComponentProps) => {
       {window.CUSTOM_LOGO && <img className="cutomLogo" src={window.CUSTOM_LOGO} alt="logo" />}
       <section
         styleName={`wallet ${window.CUSTOM_LOGO ? 'hasCusomLogo' : ''}`}
+        style={{ marginTop: '5%' }}
       >
         <div className="data-tut-store" styleName="walletContent" ref={balanceRef}>
           <div styleName="walletBalance">
             {props.BalanceForm}
-
-            <div
-              className={cx({
-                [styles.desktopEnabledViewForFaq]: true,
-                [styles.faqWrapper]: true,
-              })}
-            >
-              <FAQ />
-            </div>
+            {props.History}
           </div>
           <div
             styleName={cx({
@@ -51,14 +45,6 @@ const DashboardLayout = (props: ComponentProps) => {
             })}
           >
             <ModalConductorProvider>{children}</ModalConductorProvider>
-          </div>
-          <div
-            className={cx({
-              [styles.mobileEnabledViewForFaq]: true,
-              [styles.faqWrapper]: true,
-            })}
-          >
-            <FAQ />
           </div>
         </div>
       </section>
